@@ -1,0 +1,7 @@
+name: 'Paragraphs Sets Plugins'
+type: module
+description: 'Data transform plugin system for Paragraphs Sets'
+core: 8.x
+package: 'Paragraphs'
+dependencies:
+  - paragraphs_sets:paragraphs_sets

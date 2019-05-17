@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * Contains paragraphs_sets_plugins.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function paragraphs_sets_plugins_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the paragraphs_sets_plugins module.
+    case 'help.page.paragraphs_sets_plugins':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Data transform plugin system for Paragraphs Sets') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_paragraphs_set_data_alter().
+ */
+function paragraphs_sets_plugins_paragraphs_set_data_alter(&$data, $context) {
+  // Run source data through plugin system.
+  $plugin_manager = \Drupal::service('plugin.manager.paragraphs_sets_plugins.process');
+
+  foreach ($data as $field_key => $source_info) {
+    // Skip plugin transformation if not configured.
+    if (!is_array($source_info) || !isset($source_info['plugin'])) {
+      continue;
+    }
+    // Run the transform if the plugin is available.
+    if ($plugin = $plugin_manager->createInstance($source_info['plugin'])) {
+      $data[$field_key] = $plugin->transform($source_info, $field_key, $context);
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "drupal/paragraphs_sets_plugins",
+  "type": "drupal-module",
+  "description": "Data transform plugin system for Paragraphs Sets",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/paragraphs_sets_plugins",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/paragraphs_sets_plugins",
+    "source": "http://cgit.drupalcode.org/paragraphs_sets_plugins"
+  },
+  "require": { 
+    "drupal/paragraphs_sets": "^2.0"
+  }
+}
