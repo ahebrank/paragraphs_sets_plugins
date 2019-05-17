@@ -26,6 +26,6 @@ For example, in a paragraphs set, we want a paragraph that references custom ent
             field_heading: 'Test fact 2'
             field_body: 'Lorem ipsum'
 ...
-````
+```
 
 The `field_collection_items` field gets populated using the `create_entity` plugin, while `field_heading` gets populated as before using the paragraphs_sets builtin field value setter.
