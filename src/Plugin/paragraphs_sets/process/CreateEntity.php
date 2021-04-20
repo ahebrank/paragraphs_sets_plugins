@@ -6,7 +6,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
 
 /**
  * For sets config entries adding content to reference fields.
@@ -65,20 +64,12 @@ class CreateEntity extends ProcessPluginBase implements ProcessPluginInterface, 
   protected $fieldManager;
 
   /**
-   * The entity query service.
-   *
-   * @var Drupal\Core\Entity\Query\QueryFactory
-   */
-  protected $entityQuery;
-
-  /**
    * Inject dependencies.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_manager, EntityFieldManagerInterface $field_manager, QueryFactory $entity_query) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_manager, EntityFieldManagerInterface $field_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityManager = $entity_manager;
     $this->fieldManager = $field_manager;
-    $this->entityQuery = $entity_query;
   }
 
   /**
@@ -147,7 +138,7 @@ class CreateEntity extends ProcessPluginBase implements ProcessPluginInterface, 
 
       // Reuse existing?
       if (isset($source['reuse_template_if_unmodified']) && $source['reuse_template_if_unmodified']) {
-        $query = $this->entityQuery->get($entity_type);
+        $query = $this->entityTypeManager->getStorage($entity_type)->getQuery();
         foreach ($delta_data as $data_k => $data_v) {
           // If the field exists on the entity and the value is scalar,
           // add it as a search condition.
